@@ -24,6 +24,33 @@
 // }
 
 
+// class Solution {
+// public:
+//     vector<int> findMissingElements(vector<int>& nums) {
+//         int n = nums.size() ; 
+       
+//        int smallest = INT_MAX ,  maxi = INT_MIN ; 
+//         for( int i=0 ; i<n ; i++){
+//           smallest = min(smallest,nums[i]) ;
+//            maxi =  max(maxi , nums[i] ) ;
+//         }
+//         // optimal but not valid for bigger constraint 
+//         vector<int> map(101,0) ;
+//         for(int i=0 ; i<n ; i++){
+//             map[nums[i]] = 1 ;
+//         }
+//         vector<int> ans ;
+//         for(int i=smallest ; i<maxi ; i++){
+//             if(map[i] != 1) {
+//                 ans.push_back(i) ;
+//             }
+//         }
+//         return ans ; 
+//     }
+// };
+
+
+// optimal for bigger range also 
 class Solution {
 public:
     vector<int> findMissingElements(vector<int>& nums) {
@@ -34,17 +61,25 @@ public:
           smallest = min(smallest,nums[i]) ;
            maxi =  max(maxi , nums[i] ) ;
         }
-        // optimal but not valid for bigger constraint 
-        vector<int> map(101,0) ;
-        for(int i=0 ; i<n ; i++){
-            map[nums[i]] = 1 ;
+        unordered_set<int> map ;
+
+        for( int i=0 ; i<n ; i++){
+            map.insert(nums[i]) ;
         }
-        vector<int> ans ;
-        for(int i=smallest ; i<maxi ; i++){
-            if(map[i] != 1) {
-                ans.push_back(i) ;
-            }
+    vector<int> ans ; 
+    for(int i=smallest+1 ; i<maxi ; i++){
+        if(map.contains(i) == 0){
+            ans.push_back(i) ;
         }
-        return ans ; 
+    }
+    return ans ;
     }
 };
+
+// Current complexity:
+// O(n+k)
+// Suggested complexity:
+// O(NlogN)
+// Suggestions:
+// Your approach is optimal for small ranges. For larger ranges, sorting would be more space-efficient.
+ 
